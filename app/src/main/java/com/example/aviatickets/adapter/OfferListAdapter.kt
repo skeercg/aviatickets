@@ -72,4 +72,21 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
         )
 
     }
+
+    fun sortByPrice() {
+        val sortedList = items.sortedBy { it.price }
+        sortWithDiffUtil(sortedList)
+    }
+
+    fun sortByDuration() {
+        val sortedList = items.sortedBy { it.flight.duration }
+        sortWithDiffUtil(sortedList)
+    }
+
+    private fun sortWithDiffUtil(sortedList: List<Offer>) {
+        val diffResult = DiffUtil.calculateDiff(OffersCallBack(items, sortedList))
+        items.clear()
+        items.addAll(sortedList)
+        diffResult.dispatchUpdatesTo(this)
+    }
 }
